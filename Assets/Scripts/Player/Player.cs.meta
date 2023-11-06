@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: da3d17ca8597e2048bd66be2ebf5f7b5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - testPoolReusePrefab: {instanceID: 0}
+  - equippedItemRenderer: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
