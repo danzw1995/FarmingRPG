@@ -19,8 +19,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     private bool playerToolUseDisabled = false;
 
+    // player animator 参数
     private  float xInput;
-    private float yInput;
+    private  float yInput;
     private  bool isWalking;
     private  bool isRunning;
     private  bool isIdle;
@@ -169,7 +170,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         EventHandler.AfterSceneLoadEvent -= EnablePlayerInput;
         EventHandler.BeforeSceneUnloadFadeOutEvent -= DisablePlayerInputAndResetMovement;
     }
-
+    /// <summary>
+    /// 重置animator参数
+    /// </summary>
     private void ResetAnimationTrigger()
     {
         isUsingToolRight = false;
@@ -192,6 +195,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         toolEffect = ToolEffect.none;
     }
 
+    /// <summary>
+    /// 处理player移动状态
+    /// </summary>
     private void PlayerMovementInput()
     {
         xInput = Input.GetAxisRaw("Horizontal");
@@ -226,7 +232,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
     }
-
+    /// <summary>
+    /// 通过是否按钮shift键设置player的移动速度、状态
+    /// </summary>
     private void PlayerWalkInput()
     {
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -257,8 +265,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         if (!playerToolUseDisabled)
         {
+            // 处理鼠标左键点击事件
             if (Input.GetMouseButton(0))
             {
+                // 判断光标是否有效
                 if (gridCursor.cursorIsEnabled || cursor.cursorIsEnabled)
                 {
                     Vector3Int gridCursorPosition = gridCursor.GetGridPositionForCusor();
@@ -279,34 +289,32 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         GridPropertyDetails gridPropertyDetails = GridPropertiesManager.Instance.GetGridPropertyDetails(gridCursorPosition.x, gridCursorPosition.y);
 
+        // 获取player当前选中的物品
         ItemDetails itemDetails = InventoryManager.Instance.GetSelectedInventoryItemDetails(InventoryLocation.player);
 
-        if (itemDetails != null)
+        // 是否点击了左键
+        bool isMouseLeftClick = Input.GetMouseButtonDown(0);
+
+        if (itemDetails != null && isMouseLeftClick)
         {
             switch (itemDetails.itemType)
             {
+                // 种子
                 case ItemType.Seed:
-                    if (Input.GetMouseButtonDown(0))
-                    {
                         ProcessPlayerClickInputSeed(gridPropertyDetails, itemDetails);
-                    }
                     break;
+               // 商品
                 case ItemType.Commodity:
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        ProcessPlayerClickInputCommodity(itemDetails);
-                    }
+                    ProcessPlayerClickInputCommodity(itemDetails);
                     break;
+                // 工具
                 case ItemType.Watering_tool:
                 case ItemType.Hoeing_tool:
                 case ItemType.Reaping_tool:
                 case ItemType.Collecting_tool:
                 case ItemType.Chopping_tool:
                 case ItemType.Breaking_tool:
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        ProcessPlayerClickInputHoeingTool(gridPropertyDetails, itemDetails, playerDirection);
-                    }
+                    ProcessPlayerClickInputHoeingTool(gridPropertyDetails, itemDetails, playerDirection);
                     break;
                 case ItemType.none:
                     break;
@@ -334,7 +342,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             return Vector3Int.down;
         }
     }
-
+   
+    /// <summary>
+    /// 获取player的点击方向
+    /// </summary>
+    /// <param name="cursorPosition">光标位置</param>
+    /// <param name="playerPosition">玩家位置</param>
+    /// <returns></returns>
     private Vector3Int GetPlayerClickDirection(Vector3 cursorPosition, Vector3 playerPosition)
     {
         if (
@@ -367,41 +381,49 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    // 工具处理
     private void ProcessPlayerClickInputHoeingTool(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails, Vector3Int playerDirection)
     {
         switch (itemDetails.itemType)
         {
+            // 锄头锄地
             case ItemType.Hoeing_tool:
                 if (gridCursor.cursorPositionIsValid)
                 {
                     HoeGroundCursor(gridPropertyDetails, playerDirection);
                 }
                 break;
+            // 喷壶浇水
             case ItemType.Watering_tool:
                 if (gridCursor.cursorPositionIsValid)
                 {
                     WaterGroundCursor(gridPropertyDetails, playerDirection);
                 }
                 break;
+            // 收割杂草
             case ItemType.Reaping_tool:
                 if (cursor.cursorIsEnabled)
                 {
+                    // 获取player方向
                     playerDirection = GetPlayerClickDirection(cursor.GetWorldPositionForCursor(), GetPlayerCentrePosition());
                     ReapInPlayerDirectionAtCursor(itemDetails, playerDirection);
                 }
                 break;
+            // 砍树
             case ItemType.Chopping_tool:
                 if (gridCursor.cursorPositionIsValid)
                 {
                     ChopInPlayerDirectionAtCursor(gridPropertyDetails, itemDetails, playerDirection);
                 }
                 break;
+            // 碎石
             case ItemType.Breaking_tool:
                 if (gridCursor.cursorPositionIsValid)
                 {
                     BreakingInPlayerDirectionAtCursor(gridPropertyDetails, itemDetails, playerDirection);
                 }
                 break;
+            // 收获作物
             case ItemType.Collecting_tool:
                 if (gridCursor.cursorPositionIsValid)
                 {
@@ -594,6 +616,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     }
 
+   // 在player的方向使用工具
     private void UseToolInPlayerDirection(ItemDetails equipmentItemDetails, Vector3Int playerDirection)
     {
         if (Input.GetMouseButton(0))
@@ -615,29 +638,38 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
                         isSwingingToolDown = true;
                     }
 
+                    // 获取player 坐标
                     Vector3 playerCenterPosition = GetPlayerCentrePosition();
 
+                    // 根据player坐标 工具的使用半径 得到起点
                     Vector2 point = new Vector2(playerCenterPosition.x + (playerDirection.x * equipmentItemDetails.itemUseRadius / 2f), playerCenterPosition.y + (playerDirection.y * equipmentItemDetails.itemUseRadius / 2f));
 
+                    // 获取工具的使用半径
                     Vector2 size = new Vector2(equipmentItemDetails.itemUseRadius, equipmentItemDetails.itemUseRadius);
 
+                    // 根据起点、半径获取碰撞的物品
                     Item[] itemArray = HelperMethods.GetComponentsAtBoxLocationNonAlloc<Item>(Settings.maxCollidersToTestPerReapSwing, point, size, 0f);
 
                     int repableItemCount = 0;
 
                     for (int i = 0; i < itemArray.Length; i ++)
                     {
+                        // 当前的物品是风景时触发收割
                         if (itemArray[i] != null && InventoryManager.Instance.GetItemDetails(itemArray[i].itemCode).itemType == ItemType.Reapable_scenary)
                         {
+                            // 获取粒子坐标
                             Vector3 effectPosition = new Vector3(itemArray[i].transform.position.x, itemArray[i].transform.position.y + Settings.gridCellSize / 2f, itemArray[i].transform.position.z);
 
+                            // 触发收割粒子效果
                             EventHandler.CallHarvestActionEffectEvent(effectPosition, HarvestActionEffect.reaping);
 
+                            // 播放收割声音
                             AudioManager.Instance.PlaySound(SoundName.effectScythe);
 
-
+                            // 销毁物品
                             Destroy(itemArray[i].gameObject);
                             repableItemCount++;
+                            // 超过最大收割数量时跳出循环
                             if (repableItemCount >= Settings.maxTargetComponentsToDestroyPerReapSwing)
                             {
                                 break;
@@ -753,33 +785,41 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         playerToolUseDisabled = false;
     }
 
+    // 处理种子
     private void ProcessPlayerClickInputSeed(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails)
     {
+        // 判定光标位置是否可以种植
         if (itemDetails.canBeDropped && gridCursor.cursorPositionIsValid && gridPropertyDetails.daysSinceDug > -1 && gridPropertyDetails.seedItemCode == -1)
         {
             PlantSeedAtCursor(gridPropertyDetails, itemDetails);
         } else if (itemDetails.canBeDropped && gridCursor.cursorPositionIsValid)
         {
+            // 判断光标位置是否可以丢弃
             EventHandler.CallDropSelectedItemEvent();
         }
     }
 
+    // 种植
     private void PlantSeedAtCursor(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails)
     {
         if (GridPropertiesManager.Instance.GetCropDetail(itemDetails.itemCode) != null) {
             gridPropertyDetails.seedItemCode = itemDetails.itemCode;
             gridPropertyDetails.growthDays = 0;
 
+            // 设置种植效果
             GridPropertiesManager.Instance.DisplayPlantedCrop(gridPropertyDetails);
 
+            // 从背包中移除种植的种子
             EventHandler.CallRemoveSelectedItemFormInventoryEvent();
 
+            // 播放种植声音
             AudioManager.Instance.PlaySound(SoundName.effectPlantingSound);
         }
 
     
     }
 
+    // 丢弃商品
     private void ProcessPlayerClickInputCommodity(ItemDetails itemDetails)
     {
         if (itemDetails.canBeDropped && gridCursor.cursorPositionIsValid)
@@ -822,6 +862,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         return new Vector3(transform.position.x, transform.position.y + Settings.playerCentreYOffset, transform.position.z);
     }
 
+   /// <summary>
+   /// 展示选中的物品
+   /// </summary>
+   /// <param name="itemCode">物品Code</param>
     public void ShowCarriedItem(int itemCode)
     {
         ItemDetails itemDetails = InventoryManager.Instance.GetItemDetails(itemCode);
@@ -936,6 +980,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public void ISaveableReStoreScene(string sceneName) { }
 
 
+    //设置player朝向
     public void SetPlayerDirection(Direction direction)
     {
         switch (direction)

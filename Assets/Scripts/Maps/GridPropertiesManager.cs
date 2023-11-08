@@ -215,10 +215,13 @@ public class GridPropertiesManager : SingletonMonoBehaviour<GridPropertiesManage
         }
     }
 
+    // 种植
     public void DisplayPlantedCrop(GridPropertyDetails gridPropertyDetails)
     {
+        // 判断种子的itemCode是否存在
         if (gridPropertyDetails.seedItemCode > -1)
         {
+            // 获取作物
             CropDetail cropDetail = sO_CropDetailList.GetCropDetail(gridPropertyDetails.seedItemCode);
             if (cropDetail != null)
             {
@@ -230,6 +233,7 @@ public class GridPropertiesManager : SingletonMonoBehaviour<GridPropertiesManage
 
                 int currentGrowthStage = 0;
 
+                // 寻找当前作物的生长阶段
                 for (int i = growthStages - 1; i >= 0; i--)
                 {
                     if (gridPropertyDetails.growthDays >= cropDetail.growthDays[i])
@@ -238,13 +242,17 @@ public class GridPropertiesManager : SingletonMonoBehaviour<GridPropertiesManage
                         break;
                     }
                 }
+                
+                // 获取对应生长阶段的prefab、 sprite
 
                 cropPrefab = cropDetail.growthPrefabs[currentGrowthStage];
 
                 Sprite growthSprite = cropDetail.growthSprites[currentGrowthStage];
 
+                // 转成世界坐标，条件到场景中需要世界坐标
                 Vector3 worldPosition = groundDecoration2.CellToWorld(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY, 0));
 
+                // 世界坐标，x轴加半个cell的大小，保证居中，y轴不用
                 worldPosition = new Vector3(worldPosition.x + Settings.gridCellSize / 2f, worldPosition.y, worldPosition.z);
 
                 GameObject cropInstance = Instantiate(cropPrefab, worldPosition, Quaternion.identity);

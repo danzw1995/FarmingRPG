@@ -15,18 +15,23 @@ public class Cursor : MonoBehaviour
     [SerializeField] private GridCursor gridCursor = null;
 
     private bool _cursorPositionIsValid = false;
+
+    // 光标是否有效
     public bool cursorPositionIsValid { get { return _cursorPositionIsValid; } set { _cursorPositionIsValid = value; } }
 
     private float _itemUseRadius = 0;
 
+    // 选中物品的使用半径
     public float itemUseRadius { get => _itemUseRadius; set => _itemUseRadius = value; }
 
     private ItemType _selectItemType;
 
+    // 选中物品的itemCode
     public ItemType selectedItemType { get => _selectItemType; set => _selectItemType = value; }
 
     private bool _cursorIsEnabled = false;
 
+    //光标是否启用
     public bool cursorIsEnabled { get => _cursorIsEnabled; set => _cursorIsEnabled = value; }
 
     private void Start()
@@ -52,6 +57,11 @@ public class Cursor : MonoBehaviour
         cursorRectTransform.position = GetRectTransformPositionForCursor();
     }
 
+    /// <summary>
+    /// 设置光标是否有效
+    /// </summary>
+    /// <param name="cursorPosition">光标位置</param>
+    /// <param name="playerPosition">player位置</param>
     private void SetCursorValidity(Vector3 cursorPosition, Vector3 playerPosition)
     {
         SetCursorToValid();

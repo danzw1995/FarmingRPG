@@ -121,6 +121,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         Destroy(gameObjectToDelete);
     }
 
+    /// <summary>
+    /// 添加物品到指定背包
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <param name="item">item</param>
     public void AddItem(InventoryLocation inventoryLocation, Item item)
     {
         int itemCode = item.itemCode;
@@ -139,7 +144,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
 
         EventHandler.CallInventoryUpdateEvent(inventoryLocation, inventoryList);
     }
-
+    /// <summary>
+    /// 添加物品到指定背包
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <param name="itemCode">itemCode</param>
     public void AddItem(InventoryLocation inventoryLocation, int itemCode)
     {
 
@@ -159,6 +168,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         EventHandler.CallInventoryUpdateEvent(inventoryLocation, inventoryList);
     }
 
+    /// <summary>
+    /// 从指定背包中移除物品
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <param name="itemCode">itemCode</param>
     public void RemoveItem(InventoryLocation inventoryLocation, int itemCode)
     {
         List<InventoryItem> inventoryList = inventoryLists[(int)inventoryLocation];
@@ -170,6 +184,13 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         }
         EventHandler.CallInventoryUpdateEvent(inventoryLocation, inventoryList);
     }
+
+    /// <summary>
+    /// 背包中移除指定位置的物品
+    /// </summary>
+    /// <param name="inventoryList">背包</param>
+    /// <param name="itemCode">itemCode</param>
+    /// <param name="position">物品位置</param>
 
     private void RemoveItemAtPosition(List<InventoryItem> inventoryList, int itemCode, int position)
     {
@@ -187,6 +208,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
 
     }
 
+    /// <summary>
+    /// 向背包中添加物品
+    /// </summary>
+    /// <param name="inventoryList">背包</param>
+    /// <param name="itemCode">itemCode</param>
     private void AddItemAtPosition(List<InventoryItem> inventoryList, int itemCode)
     {
         InventoryItem inventoryItem = new InventoryItem
@@ -212,6 +238,12 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         Debug.Log("**************背包数据结束****************");
     }*/
 
+    /// <summary>
+    /// 向背包的指定位置添加物品
+    /// </summary>
+    /// <param name="inventoryList">背包</param>
+    /// <param name="itemCode">itemCode</param>
+    /// <param name="position">位置</param>
     private void AddItemAtPosition(List<InventoryItem> inventoryList, int itemCode, int position)
     {
         InventoryItem inventoryItem = inventoryList[position];
@@ -230,6 +262,12 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
 
     }
 
+    /// <summary>
+    /// 交换指定背包中两个物品的位置
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <param name="fromSlotNumber">需要交换的物品位置</param>
+    /// <param name="toSlotNumber">待交换的物品位置</param>
     public void SwapInventoryItems(InventoryLocation inventoryLocation, int fromSlotNumber, int toSlotNumber)
     {
         List<InventoryItem> inventoryList = inventoryLists[(int)inventoryLocation];
@@ -246,7 +284,12 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
 
 
     }
-
+    /// <summary>
+    /// 根据itemCode查找指定背包中对应的物品，找到返回物品的位置，没有找到返回-1;
+    /// </summary>
+    /// <param name="inventoryLocation"></param>
+    /// <param name="itemCode"></param>
+    /// <returns></returns>
     public int FindItemInInventory(InventoryLocation inventoryLocation, int itemCode)
     {
 
@@ -260,7 +303,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         }
         return -1;
     }
-
+    /// <summary>
+    /// 获取物品明细
+    /// </summary>
+    /// <param name="itemCode"></param>
+    /// <returns>ItemDetails</returns>
     public ItemDetails GetItemDetails(int itemCode) {
         ItemDetails itemDetails;
 
@@ -273,6 +320,12 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         }
     }
 
+    /// <summary>
+    /// 设置指定背包选中的物品
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <param name="itemCode"></param>
+
     public void SetSelectedVentoryItem(InventoryLocation inventoryLocation, int itemCode)
     {
         selectedVentoryItems[(int)inventoryLocation] = itemCode;
@@ -283,7 +336,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         selectedVentoryItems[(int)inventoryLocation] = -1;
     }
 
-
+    /// <summary>
+    /// 获取指定背包选中的物品的itemCode
+    /// </summary>
+    /// <param name="inventoryLocation">背包位置</param>
+    /// <returns>itemCode</returns>
     public int GetSelectedInventoryItem(InventoryLocation inventoryLocation)
     {
         return selectedVentoryItems[(int)inventoryLocation];
