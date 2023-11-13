@@ -41,6 +41,11 @@ public class UIInventoryBar : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 更新背包
+    /// </summary>
+    /// <param name="inventoryLocation"></param>
+    /// <param name="inventoryList"></param>
     private void InventoryUpdated (InventoryLocation inventoryLocation, List<InventoryItem> inventoryList)
     {
         if (inventoryLocation == InventoryLocation.player)
@@ -90,6 +95,9 @@ public class UIInventoryBar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 切换背包的位置，根据player的位置，显示在屏幕下方|上方
+    /// </summary>
     private void SwitchInventoryBarPosition()
     {
         Vector3 playerViewPortPosition = Player.Instance.GetPlayerViewPortPosition();

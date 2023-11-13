@@ -127,6 +127,9 @@ public class UIInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         Player.Instance.EnablePlayerInput();
     }
 
+    /// <summary>
+    /// 丢弃选中的物品至鼠标位置
+    /// </summary>
     private void DropSelectedItemAndMousePosition()
     {
         if (itemDetails != null && isSelected)  
@@ -171,7 +174,10 @@ public class UIInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
         }
     }
-
+    /// <summary>
+    /// 鼠标移入物品栏，显示物品的描述信息
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (itemQuantity > 0)
@@ -207,6 +213,10 @@ public class UIInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         }
     }
 
+    /// <summary>
+    ///  选中|取消选中物品
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isSelected)

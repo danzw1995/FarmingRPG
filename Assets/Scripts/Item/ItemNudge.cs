@@ -12,10 +12,15 @@ public class ItemNudge : MonoBehaviour
         pause = new WaitForSeconds(0.04f);
     }
 
+    /// <summary>
+    ///风景 与player的碰撞
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isAnimating == false)
         {
+            // 角色在左侧
             if (gameObject.transform.position.x < collision.gameObject.transform.position.x)
             {
                 StartCoroutine(RotateAntiClock());

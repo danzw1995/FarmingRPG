@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour
 {
+    /// <summary>
+    /// 拾取物品
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Item item = collision.GetComponent<Item>();

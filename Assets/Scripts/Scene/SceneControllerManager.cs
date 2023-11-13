@@ -21,7 +21,6 @@ public class SceneControllerManager : SingletonMonoBehaviour<SceneControllerMana
             StartCoroutine(FadeAndSwitchScene(sceneName, spawnPosition));
         }
     }
-
     private IEnumerator Fade(float targetAlpha)
     {
         isFading = true;
@@ -66,6 +65,12 @@ public class SceneControllerManager : SingletonMonoBehaviour<SceneControllerMana
         StartCoroutine(Fade(0f));
     }
 
+    /// <summary>
+    /// 加载场景
+    /// </summary>
+    /// <param name="sceneName"></param>
+    /// <param name="spawnPosition"></param>
+    /// <returns></returns>
     private IEnumerator FadeAndSwitchScene(string sceneName, Vector3 spawnPosition)
     {
         EventHandler.CallBeforeSceneUnloadFadeOutEvent();

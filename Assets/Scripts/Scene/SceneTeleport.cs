@@ -8,13 +8,13 @@ public class SceneTeleport : MonoBehaviour
     [SerializeField] private SceneName sceneName;
     [SerializeField] private Vector3 sceneGotoPosition = new Vector3();
 
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         Player player = collision.GetComponent<Player>();
 
         if (player != null)
         {
+            // 场景切换
             SceneControllerManager.Instance.FadeAndLoadScene(sceneName.ToString(), sceneGotoPosition);
         }
     }

@@ -100,7 +100,10 @@ public class SceneItemsManager : SingletonMonoBehaviour<SceneItemsManager>, ISav
             item.name = sceneItem.itemName;
         }
     }
-
+    /// <summary>
+    ///  恢复场景item
+    /// </summary>
+    /// <param name="sceneName"></param>
     public void ISaveableReStoreScene(string sceneName)
     {
         if (gameObjectSave.sceneData.TryGetValue(sceneName, out SceneSave sceneSave))
@@ -113,6 +116,11 @@ public class SceneItemsManager : SingletonMonoBehaviour<SceneItemsManager>, ISav
             }
         }
     }
+   
+    /// <summary>
+    /// 保存场景中的Item
+    /// </summary>
+    /// <param name="sceneName"></param>
     public void ISaveableStoreScene(string sceneName)
     {
         gameObjectSave.sceneData.Remove(sceneName);

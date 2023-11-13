@@ -10,6 +10,7 @@ public class TriggerObscuringItemFader : MonoBehaviour
         {
             for(int i = 0; i < obscuringItemFaders.Length; i ++)
             {
+                // 植物淡出（通过设置透明度）
                 obscuringItemFaders[i].FadeOut();
             }
         }
@@ -22,6 +23,7 @@ public class TriggerObscuringItemFader : MonoBehaviour
         {
             for(int i = 0; i < obscuringItemFaders.Length; i ++ )
             {
+                // 植物淡出效果恢复
                 obscuringItemFaders[i].FadeIn();
             }
         }

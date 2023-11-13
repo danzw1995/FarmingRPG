@@ -114,24 +114,34 @@ public class ApplyCharatcterCustomisation : MonoBehaviour
         ProcessCustomisation();
     }
 
+    // 自定义人物
     private void ProcessCustomisation() {
 
+        // 处理性别
         ProcessGender();
 
+        // 处理衣服
         ProcessShirt();
 
+        // 处理手臂
         ProcessArms();
 
+        // 处理裤子
         ProcessTrousers();
 
+        // 处理头发
         ProcessHair();
 
+        // 处理肤色
         ProcessSkin();
 
+        // 处理帽子
         ProcessHat();
 
+        // 处理装饰
         ProcessAdornment();
 
+        // 合并更改
         MergeCustomisations();
     }
 

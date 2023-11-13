@@ -26,6 +26,10 @@ public class AnimationOverrides : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 重写animator的动画帧
+    /// </summary>
+    /// <param name="characterAttributes"></param>
     public void ApplyCharacterCustomisationParameters(List<CharacterAttribute> characterAttributes)
     {
         foreach(CharacterAttribute characterAttribute in characterAttributes)
@@ -37,7 +41,8 @@ public class AnimationOverrides : MonoBehaviour
             string animationSOAssetName = characterAttribute.characterPart.ToString();
 
             Animator[] animators = character.GetComponentsInChildren<Animator>();
-
+            
+            // 找到当前的animator
             foreach(Animator animator in animators)
             {
                 if (animator.name == animationSOAssetName)
@@ -53,10 +58,13 @@ public class AnimationOverrides : MonoBehaviour
             foreach(AnimationClip animationClip in animationClips)
             {
                 SO_AnimationType sO_AnimationType;
+                // 找出预定义的动画
                 bool foundAnimation = animationTypeDictionaryByAnimation.TryGetValue(animationClip, out sO_AnimationType);
 
                 if (foundAnimation)
                 {
+                    // 通过characterPart + partVariantColour + animationName 找出对应的动画
+
                     string key = characterAttribute.characterPart.ToString() + characterAttribute.partVariantColour.ToString() + characterAttribute.partVariantType.ToString() + sO_AnimationType.animationName.ToString();
 
                     SO_AnimationType sO_SwapAnimationType;
@@ -71,6 +79,7 @@ public class AnimationOverrides : MonoBehaviour
                 }
             }
 
+            // 重写
             aoc.ApplyOverrides(animationKeyValuePairs);
 
             currentAnimator.runtimeAnimatorController = aoc;
