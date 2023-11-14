@@ -6,44 +6,85 @@ using UnityEngine.SceneManagement;
 
 public class Player : SingletonMonoBehaviour<Player>, ISaveable
 {
+    // 动画重写
     private AnimationOverrides animationOverrides;
 
+    // 使用工具后的停顿时间
     private WaitForSeconds afterUseToolAnimationPause;
+    
+    // 使用工具的停顿时间
     private WaitForSeconds useToolAnimationPause;
 
+    // 浇水后的停顿时间
     private WaitForSeconds afterUseLiftToolAnimationPause;
+    
+    // 浇水的停顿事件
     private WaitForSeconds useLiftToolAnimationPause;
 
+    // 收获后的停顿时间
     private WaitForSeconds afterPickAnimationPause;
+
+    // 收获停顿时间
     private WaitForSeconds pickAnimationPause;
 
+    // 是否禁止player使用工具
     private bool playerToolUseDisabled = false;
 
     // player animator 参数
+    // x轴输入
     private  float xInput;
+    // y轴输入
     private  float yInput;
+    // 是否处理走路状态
     private  bool isWalking;
+    // 是否处理跑步状态
     private  bool isRunning;
+    // 是否空闲状态
     private  bool isIdle;
+    // 是否携带物品
     private  bool isCarrying = false;
+    // 工具效果枚举
     private  ToolEffect toolEffect = ToolEffect.none;
-    private  bool isUsingToolRight;
-    private  bool isUsingToolLeft;
-    private  bool isUsingToolUp;
-    private  bool isUsingToolDown;
-    private  bool isLiftingToolRight;
-    private  bool isLiftingToolLeft;
-    private  bool isLiftingToolUp;
-    private  bool isLiftingToolDown;
-    private  bool isPickingRight;
-    private  bool isPickingLeft;
-    private  bool isPickingUp;
-    private  bool isPickingDown;
-    private  bool isSwingingToolRight;
-    private  bool isSwingingToolLeft;
-    private  bool isSwingingToolUp;
-    private  bool isSwingingToolDown;
 
+
+    // 以下这些方向是相当于player的位置，根据方向不同，播放的动画不同
+    // 是否在右方使用工具
+    private  bool isUsingToolRight;
+    // 是否在左方使用工具
+    private  bool isUsingToolLeft;
+    // 是否在上方使用工具
+    private  bool isUsingToolUp;
+    // 是否在下方使用工具
+    private  bool isUsingToolDown;
+
+    // 是否在右方浇水
+    private  bool isLiftingToolRight;
+    // 是否在左方浇水
+    private bool isLiftingToolLeft;
+    // 是否在上方浇水
+    private bool isLiftingToolUp;
+    // 是否在下方浇水
+    private bool isLiftingToolDown;
+
+    // 是否在右方收获
+    private  bool isPickingRight;
+    // 是否在左方收获
+    private bool isPickingLeft;
+    // 是否在上方收获
+    private bool isPickingUp;
+    // 是否在下方收获
+    private bool isPickingDown;
+
+    // 是否在右方收割
+    private  bool isSwingingToolRight;
+    // 是否在左方收割
+    private bool isSwingingToolLeft;
+    // 是否在上方收割
+    private bool isSwingingToolUp;
+    // 是否在下方收割
+    private bool isSwingingToolDown;
+
+    // 主摄像机
     private Camera mainCamera;
 
     private GridCursor gridCursor;
@@ -54,6 +95,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     private Direction playerDirection;
 
+    // 移动速度
     private float movementSpeed;
 
     private bool _playerInputIsDisabled = false;
@@ -61,11 +103,16 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     [Tooltip("Should be populated in the prefab with the equipped item sprite renderer")]
     [SerializeField] private SpriteRenderer equippedItemRenderer = null;
 
+    // player胳膊动画状态（重写胳膊动画时需要）
     private CharacterAttribute armsCharacterAttribute;
+
+    // player工具动画状态（重写工具动画时需要）
     private CharacterAttribute toolCharacterAttribute;
 
+    // 自定义动画属性List
     private List<CharacterAttribute> characterAttributeCustomisationList;
 
+    // 是否禁止player的移动
     public bool playerInputIsDisabled
     {
         get => _playerInputIsDisabled;
@@ -73,8 +120,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     }
 
     private string _iSaveableUniqueID;
+    
+    // 用于保存player状态的唯一key
     public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
+
     private GameObjectSave _gameObjectSave;
+
+    // 保存player状态的容器
     public GameObjectSave gameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
 
 

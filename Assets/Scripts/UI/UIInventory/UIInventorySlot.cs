@@ -25,10 +25,18 @@ public class UIInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     [SerializeField] UIInventoryBar inventoryBar = null;
     [SerializeField] private GameObject inventoryTextBoxPrefab = null;
+
+    // 物品明细
     [HideInInspector] public ItemDetails itemDetails;
+    
+    // 是否选中
     [HideInInspector] public bool isSelected;
     [SerializeField] private GameObject itemPrefab = null;
+
+    // 物品数量
     [HideInInspector] public int itemQuantity;
+
+    // 背包栏编号
     [SerializeField] public int slotNumber;
 
     private void Awake()

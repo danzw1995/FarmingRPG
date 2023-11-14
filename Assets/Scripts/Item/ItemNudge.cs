@@ -36,6 +36,7 @@ public class ItemNudge : MonoBehaviour
         }
     }
 
+    // 逆时针晃动
     private IEnumerator RotateAntiClock()
     {
         isAnimating = true;
@@ -61,7 +62,7 @@ public class ItemNudge : MonoBehaviour
         isAnimating = false;
 
     }
-
+    // 顺时针晃动
     private IEnumerator RotateClock()
     {
         isAnimating = true;

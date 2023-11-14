@@ -17,6 +17,7 @@ public class UIInventoryBar : MonoBehaviour
 
     private bool _isInventoryBarPositionBottom = false;
 
+    // 物品栏是否在屏幕下方
     public bool isInventoryBarPositionBottom { get { return _isInventoryBarPositionBottom; } set { _isInventoryBarPositionBottom = value; } }
     // Start is called before the first frame update
     void Start()

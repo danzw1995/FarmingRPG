@@ -8,11 +8,14 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
     private UIInventoryBar inventoryBar;
     private Dictionary<int, ItemDetails> itemDetailsDictionary;
 
+    // 选中的物品
     private int[] selectedVentoryItems;
 
+    // 背包
     public List<InventoryItem>[] inventoryLists;
 
     [HideInInspector]
+    // 背包容量
     public int[] inventoryListCapacityArray;
 
 
@@ -61,6 +64,9 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         ISaveableDeregister();
     }
 
+    /// <summary>
+    ///  初始化背包
+    /// </summary>
     private void CreateInventoryLists()
     {
         inventoryLists = new  List<InventoryItem>[(int)InventoryLocation.count];
@@ -75,6 +81,9 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         inventoryListCapacityArray[(int)InventoryLocation.player] = Settings.playerInitialInventoryCapacity;
     }
 
+    /// <summary>
+    /// 初始化物品字典
+    /// </summary>
     private void CreateItemDetailDictionary()
     {
         itemDetailsDictionary = new Dictionary<int, ItemDetails>();
@@ -87,6 +96,11 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>, ISavea
         }
     }
 
+    /// <summary>
+    /// 获取物品类型描述
+    /// </summary>
+    /// <param name="itemType"></param>
+    /// <returns></returns>
     public string GetItemTypeDescription(ItemType itemType)
     {
         string description = "";
