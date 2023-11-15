@@ -79,7 +79,11 @@ public class SceneItemsManager : SingletonMonoBehaviour<SceneItemsManager>, ISav
         return gameObjectSave;
     }
 
-
+    /// <summary>
+    /// 根据itemPosition, 实例化item
+    /// </summary>
+    /// <param name="itemCode"></param>
+    /// <param name="itemPosition"></param>
     public void InstantiateSceneItem(int itemCode, Vector3 itemPosition)
     {
         GameObject itemGameObject = Instantiate(itemPrefab, itemPosition, Quaternion.identity, parentTransform);
@@ -89,6 +93,10 @@ public class SceneItemsManager : SingletonMonoBehaviour<SceneItemsManager>, ISav
 
     }
 
+    /// <summary>
+    /// 实例化场景的items
+    /// </summary>
+    /// <param name="sceneItems"></param>
     public void InstantiateSceneItems(List<SceneItem> sceneItems) 
     {
        foreach(SceneItem  sceneItem in sceneItems)

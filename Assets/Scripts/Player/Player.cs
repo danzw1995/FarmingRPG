@@ -87,12 +87,16 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     // 主摄像机
     private Camera mainCamera;
 
+    // 光标1，用于作物
     private GridCursor gridCursor;
+
+    // 光标2，用于收割杂草
     private Cursor cursor;
 
-
+    // 刚体
     new private Rigidbody2D rigidbody2D;
 
+    // player朝向
     private Direction playerDirection;
 
     // 移动速度
@@ -378,6 +382,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    /// <summary>
+    /// 获取player的点击方向
+    /// </summary>
+    /// <param name="gridCursorPosition"></param>
+    /// <param name="gridPlayerPosition"></param>
+    /// <returns></returns>
     private Vector3Int GetPlayerClickDirection(Vector3Int gridCursorPosition, Vector3Int gridPlayerPosition)
     {
         if (gridCursorPosition.x >  gridPlayerPosition.x)

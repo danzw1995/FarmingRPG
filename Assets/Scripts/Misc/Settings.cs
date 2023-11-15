@@ -72,7 +72,7 @@ public static class Settings {
     public static int idleUp;
     public static int idleDown;
 
-
+    // 工具
     public const string HoeingTool = "Hoe";
     public const string ChoppingTool = "Axe";
     public const string BreakingTool = "Pickaxe";

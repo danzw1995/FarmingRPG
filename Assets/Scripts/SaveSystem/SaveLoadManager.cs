@@ -16,7 +16,9 @@ public class SaveLoadManager : SingletonMonoBehaviour<SaveLoadManager>
 
         iSaveableList = new List<ISaveable>();
     }
-
+    /// <summary>
+    ///  从文件中加载游戏数据
+    /// </summary>
     public void LoadDataFromFile()
     {
         BinaryFormatter bf = new BinaryFormatter();
@@ -46,6 +48,9 @@ public class SaveLoadManager : SingletonMonoBehaviour<SaveLoadManager>
         UIManager.Instance.DisablePauseMenu();
     }
 
+    /// <summary>
+    ///  保存游戏数据到文件
+    /// </summary>
     public void SaveDataToFile()
     {
         gameSave = new GameSave();
